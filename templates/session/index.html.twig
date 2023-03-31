@@ -6,7 +6,28 @@
 
     <h1>Liste des sessions</h1>
 
-    {% for session in sessions %}
-        <li><a href="">{{ session.intitule }}</a></li>
-    {% endfor %}
+    <table>
+        <thead>
+            <tr>
+                <th>Intitulé de session</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Nombres de places total</th>
+                <th>Nombres de places réservées</th>
+                <th>Nombre de places libres</th>
+                <th>Détail du programme</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+            <td><a href="">{{ session.intitule }}</a></td>
+            <td>{{ session.dateDebut|date('d-m-Y') }}</td>
+            <td>{{ session.dateFin|date('d-m-Y') }}</td>
+            <td>{{ session.nbPlaces }}</td>
+            <td>{{ session.placesReservees }}</td>
+            <td>{{ session.placesLibres }}</td>
+            <td><a href="">Programme</a></td>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
