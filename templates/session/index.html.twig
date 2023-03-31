@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sessions{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des sessions</h1>
+
+    {% for session in sessions %}
+        <li><a href="">{{ session.intitule }}</a></li>
+    {% endfor %}
+{% endblock %}
