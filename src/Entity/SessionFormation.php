@@ -40,6 +40,10 @@ class SessionFormation
     #[ORM\OneToMany(mappedBy: 'sessionForma', targetEntity: Programme::class, orphanRemoval: true)]
     private Collection $programmes;
 
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Formation $formation = null;
+
     public function __construct()
     {
         $this->stagiaires = new ArrayCollection();
@@ -176,6 +180,18 @@ class SessionFormation
                 $programme->setSessionForma(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFormation(): ?Formation
+    {
+        return $this->formation;
+    }
+
+    public function setFormation(?Formation $formation): self
+    {
+        $this->formation = $formation;
 
         return $this;
     }

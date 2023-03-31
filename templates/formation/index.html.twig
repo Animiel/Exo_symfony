@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formations{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des formations</h1>
+
+    <ul>
+        {% for formation in formations %}
+            <li><a href="">{{ formation.titre }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
