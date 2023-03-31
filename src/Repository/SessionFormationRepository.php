@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Session;
+use App\Entity\SessionFormation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Session>
+ * @extends ServiceEntityRepository<SessionFormation>
  *
- * @method Session|null find($id, $lockMode = null, $lockVersion = null)
- * @method Session|null findOneBy(array $criteria, array $orderBy = null)
- * @method Session[]    findAll()
- * @method Session[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SessionFormation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method SessionFormation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SessionFormation[]    findAll()
+ * @method SessionFormation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SessionRepository extends ServiceEntityRepository
+class SessionFormationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Session::class);
+        parent::__construct($registry, SessionFormation::class);
     }
 
-    public function save(Session $entity, bool $flush = false): void
+    public function save(SessionFormation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class SessionRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Session $entity, bool $flush = false): void
+    public function remove(SessionFormation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class SessionRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Session[] Returns an array of Session objects
+//     * @return SessionFormation[] Returns an array of SessionFormation objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class SessionRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Session
+//    public function findOneBySomeField($value): ?SessionFormation
 //    {
 //        return $this->createQueryBuilder('s')
 //            ->andWhere('s.exampleField = :val')

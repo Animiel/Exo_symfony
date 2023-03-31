@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\SessionRepository;
+use App\Repository\SessionFormationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SessionRepository::class)]
-class Session
+#[ORM\Entity(repositoryClass: SessionFormationRepository::class)]
+class SessionFormation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,6 +33,18 @@ class Session
 
     #[ORM\Column]
     private ?int $placesLibres = null;
+
+    #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'sessions')]
+    private Collection $stagiaires;
+
+    #[ORM\OneToMany(mappedBy: 'sessionForma', targetEntity: Programme::class, orphanRemoval: true)]
+    private Collection $programmes;
+
+    public function __construct()
+    {
+        $this->stagiaires = new ArrayCollection();
+        $this->programmes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +119,63 @@ class Session
     public function setPlacesLibres(int $placesLibres): self
     {
         $this->placesLibres = $placesLibres;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stagiaire>
+     */
+    public function getStagiaires(): Collection
+    {
+        return $this->stagiaires;
+    }
+
+    public function addStagiaire(Stagiaire $stagiaire): self
+    {
+        if (!$this->stagiaires->contains($stagiaire)) {
+            $this->stagiaires->add($stagiaire);
+            $stagiaire->addSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStagiaire(Stagiaire $stagiaire): self
+    {
+        if ($this->stagiaires->removeElement($stagiaire)) {
+            $stagiaire->removeSession($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Programme>
+     */
+    public function getProgrammes(): Collection
+    {
+        return $this->programmes;
+    }
+
+    public function addProgramme(Programme $programme): self
+    {
+        if (!$this->programmes->contains($programme)) {
+            $this->programmes->add($programme);
+            $programme->setSessionForma($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgramme(Programme $programme): self
+    {
+        if ($this->programmes->removeElement($programme)) {
+            // set the owning side to null (unless already changed)
+            if ($programme->getSessionForma() === $this) {
+                $programme->setSessionForma(null);
+            }
+        }
 
         return $this;
     }
