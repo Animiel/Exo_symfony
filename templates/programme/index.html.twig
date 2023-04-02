@@ -14,6 +14,16 @@
             </tr>
         </thead>
         <tbody>
+            {% for element in liste %}
+                <tr>
+                    {# {{ dump(liste) }} #}
+                    <td colspan="2">{{ element.moduleForma.categorie }}</td>
+                </tr>
+                <tr>
+                    <td>{{ element.moduleForma }}</td>
+                    <td>{{ element.nbJours }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}
