@@ -18,4 +18,12 @@ class FormationController extends AbstractController
             'formations' => $formations
         ]);
     }
+
+    #[Route('formation/{id}', name: 'detail_formation')]
+    public function detailFormation(Formation $formation): Response {
+
+        return $this->render('formation/detailFormation.html.twig', [
+            'formation' => $formation
+        ]);
+    }
 }

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sessions{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des sessions de la formation {{ formation }}</h1>
+
+    {% if formation.sessions | length == 0 %}
+        <p>Il n'y a pas de sessions prévues ou disponibles pour cette formation actuellement.</p>
+    {% else %}
+    <ul>
+        {% for session in formation.sessions %}
+            <li><a href="">{{ session }}</a></li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+{% endblock %}

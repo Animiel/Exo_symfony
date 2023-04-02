@@ -8,7 +8,7 @@
 
     <ul>
         {% for formation in formations %}
-            <li><a href="">{{ formation.titre }}</a></li>
+            <li><a href="{{ path('detail_formation', {'id': formation.id}) }}">{{ formation.titre }}</a></li>
         {% endfor %}
     </ul>
 
