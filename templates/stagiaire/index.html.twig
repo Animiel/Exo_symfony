@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stagiaires{% endblock %}
+
+{% block body %}
+
+<h1>Liste des stagiaires</h1>
+
+{% for stagiaire in stagiaires %}
+    <p><a href="{{ path('profil_stagiaire', {'id': stagiaire.id}) }}">{{ stagiaire }}</a></p>
+{% endfor %}
+
+{% endblock %}
