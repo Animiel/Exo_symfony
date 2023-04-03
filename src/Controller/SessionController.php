@@ -18,4 +18,12 @@ class SessionController extends AbstractController
             'sessions' => $sessions
         ]);
     }
+
+    #[Route('/session/{id}', name: 'detail_session')]
+    public function detail_session(SessionFormation $session) {
+
+        return $this->render('session/detailSession.html.twig', [
+            'session' => $session
+        ]);
+    }
 }

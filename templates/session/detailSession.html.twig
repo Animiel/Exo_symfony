@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Session{% endblock %}
+
+{% block body %}
+
+    <h1>{{ session }}</h1>
+
+    <h2>Détail pratiques de la session</h2>
+
+    <ul>
+        <li>Date de début de session : {{ session.dateDebut|date('d-m-Y') }}</li>
+        <li>Date de fin de session : {{ session.dateFin|date('d-m-Y') }}</li>
+        <li>Nombre de places total : {{ session.nbPlaces }}</li>
+        <li>Nombre de places réservées : {{ session.placesReservees }}</li>
+        <li>Nombre de places disponibles : {{ session.placesLibres }}</li>
+        <li>Programme de la session : <a href="{{ path('app_programme', {'id': session.id}) }}">Programme</a></li>
+    </ul>
+
+    <h2>Liste des stagiaires inscrits à la session</h2>
+
+    {% for stagiaire in session.stagiaires %}
+        <p><a href="{{ path('profil_stagiaire', {'id': stagiaire.id}) }}">{{ stagiaire }}</a></p>
+    {% endfor %}
+
+    <h2>Liste des stagiaires non inscrits à la session</h2>
+
+{% endblock %}
