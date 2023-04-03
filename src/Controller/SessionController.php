@@ -30,7 +30,7 @@ class SessionController extends AbstractController
     #[Route('/session/{id}/programme', name: 'programme_session')]
     public function programmeSession(SessionFormation $session) {
 
-        return $this->render('programme/index.html.twig', [
+        return $this->render('session/programme.html.twig', [
             'session' => $session
         ]);
     }

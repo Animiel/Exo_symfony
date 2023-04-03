@@ -11,7 +11,7 @@
     {% else %}
     <ul>
         {% for session in formation.sessions %}
-            <li><a href="{{ path('app_programme', {'id': session.id}) }}">{{ session }}</a></li>    
+            <li><a href="{{ path('detail_session', {'id': session.id}) }}">{{ session }}</a></li>    
         {% endfor %}
     </ul>
     {% endif %}

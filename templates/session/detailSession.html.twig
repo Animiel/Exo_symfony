@@ -14,7 +14,7 @@
         <li>Nombre de places total : {{ session.nbPlaces }}</li>
         <li>Nombre de places réservées : {{ session.placesReservees }}</li>
         <li>Nombre de places disponibles : {{ session.placesLibres }}</li>
-        <li>Programme de la session : <a href="{{ path('app_programme', {'id': session.id}) }}">Programme</a></li>
+        <li>Programme de la session : <a href="{{ path('programme_session', {'id': session.id}) }}">Programme</a></li>
     </ul>
 
     <h2>Liste des stagiaires inscrits à la session</h2>
