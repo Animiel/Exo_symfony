@@ -6,6 +6,8 @@
 
     <h1>Liste des formations</h1>
 
+    <a href="{{ path('add_formation') }}">Ajouter une formation</a>
+
     <ul>
         {% for formation in formations %}
             <li><a href="{{ path('detail_formation', {'id': formation.id}) }}">{{ formation.titre }}</a></li>
