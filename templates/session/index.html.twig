@@ -27,7 +27,7 @@
                 <td>{{ session.nbPlaces }}</td>
                 <td>{{ session.placesReservees }}</td>
                 <td>{{ session.placesLibres }}</td>
-                <td><a href="">Programme</a></td>
+                <td><a href="{{ path('programme_session', {'id': session.id}) }}">Programme</a></td>
             </tr>
             {% endfor %}
         </tbody>

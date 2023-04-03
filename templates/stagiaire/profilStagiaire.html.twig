@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StagiaireController!{% endblock %}
+{% block title %}Profil{% endblock %}
 
 {% block body %}
+
+    <h1>{{ stagiaire }}</h1>
+
+    <p>Date de naissance : {{ stagiaire.dateNaissance|date('d-m-Y') }}</p>
+    <p>Sexe : {{ stagiaire.sexe }}</p>
+    <p>Domicile : {{ stagiaire.ville }}</p>
+    <p>E-mail : {{ stagiaire.email }}</p>
+    <p>Téléphone : {{ stagiaire.tel }}</p>
+
+    <h2>Sessions auxquelles le(la) stagiaire est inscrit(e)</h2>
+    
+
 {% endblock %}

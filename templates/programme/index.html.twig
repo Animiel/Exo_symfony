@@ -14,14 +14,14 @@
             </tr>
         </thead>
         <tbody>
-            {% for element in liste %}
+            {% for programme in session.programmes %}
                 <tr>
                     {# {{ dump(liste) }} #}
-                    <td colspan="2">{{ element.moduleForma.categorie }}</td>
+                    <td colspan="2">{{ programme.moduleForma.categorie }}</td>
                 </tr>
                 <tr>
-                    <td>{{ element.moduleForma }}</td>
-                    <td>{{ element.nbJours }}</td>
+                    <td>{{ programme.moduleForma }}</td>
+                    <td>{{ programme.nbJours }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -20,8 +20,9 @@ class StagiaireController extends AbstractController
     }
 
     #[Route('/stagiaire/{id}', name: 'profil_stagiaire')]
-    public function profilStagiaire() {
+    public function profilStagiaire(Stagiaire $stagiaire) {
         return $this->render('stagiaire/profilStagiaire.html.twig', [
+            'stagiaire' => $stagiaire
         ]);
     }
 }
