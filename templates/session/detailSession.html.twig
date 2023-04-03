@@ -14,13 +14,39 @@
         <li>Nombre de places total : {{ session.nbPlaces }}</li>
         <li>Nombre de places réservées : {{ session.placesReservees }}</li>
         <li>Nombre de places disponibles : {{ session.placesLibres }}</li>
-        <li>Programme de la session : <a href="{{ path('programme_session', {'id': session.id}) }}">Programme</a></li>
     </ul>
+
+    <h3>Programme de la session</h3>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Module</th>
+                <th>Nombre de jours</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for programme in session.programmes %}
+                <tr>
+                    <td colspan="2">{{ programme.moduleForma.categorie }}</td>
+                </tr>
+                <tr>
+                    <td>{{ programme.moduleForma }}</td>
+                    <td>{{ programme.nbJours }}</td>
+                    <td><a href="{{ path('delete_programme', {'idSe': session.id, 'idProg': programme.id}) }}">Annuler le module</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <h2>Liste des stagiaires inscrits à la session</h2>
 
     {% for stagiaire in session.stagiaires %}
-        <p><a href="{{ path('profil_stagiaire', {'id': stagiaire.id}) }}">{{ stagiaire }}</a></p>
+        <p>
+            <a href="{{ path('profil_stagiaire', {'id': stagiaire.id}) }}">{{ stagiaire }}</a>
+            <a href="{{ path('delete_stagiaire', {'idSt': stagiaire.id, 'idSe': session.id}) }}">Désinscrire</a>
+        </p>
     {% endfor %}
 
     <h2>Liste des stagiaires non inscrits à la session</h2>
