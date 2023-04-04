@@ -20,27 +20,49 @@
 
     <a href="{{ path('app_module') }}">Ajouter un module</a>
     
-    <table>
-        <thead>
-            <tr>
-                <th>Module</th>
-                <th>Nombre de jours</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for programme in session.programmes %}
+    <div>
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="2">{{ programme.moduleForma.categorie }}</td>
+                    <th>Modules</th>
+                    <th>Catégories</th>
+                    <th>Nombre de jours</th>
+                    <th></th>
                 </tr>
+            </thead>
+            <tbody>
+                {% for programme in session.programmes %}
+                    <tr>
+                        <td>{{ programme.moduleForma.categorie }}</td>
+                        <td>{{ programme.moduleForma }}</td>
+                        <td>{{ programme.nbJours }}</td>
+                        <td><a href="{{ path('delete_programme', {'idSe': session.id, 'idProg': programme.id}) }}">Annuler le module</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ programme.moduleForma }}</td>
-                    <td>{{ programme.nbJours }}</td>
-                    <td><a href="{{ path('delete_programme', {'idSe': session.id, 'idProg': programme.id}) }}">Annuler le module</a></td>
+                    <th>Modules</th>
+                    <th>Catégories</th>
+                    <th>Nombre de jours</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for programme in nonProgrammes %}
+                    <tr>
+                        <td>{{ programme.moduleForma }}</td>
+                        <td>{{ programme.moduleForma.categorie }}</td>
+                        <td>{{ programme.nbJours }}</td>
+                        <td><a href="{{ path('log_programme', {'idSe': session.id, 'idProg': programme.id}) }}">Ajouter au programme</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <h2>Liste des stagiaires inscrits à la session</h2>
 

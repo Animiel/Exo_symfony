@@ -89,6 +89,18 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('show_nonInscrits', ['id' => $session->getId()]);
     }
 
+    #[Route('/session/{idSe}/{idProg}/log', name: 'log_programme')]
+    #[ParamConverter("session", options:["mapping" => ["idSe" => "id"]])]
+    #[ParamConverter("programme", options:["mapping" => ["idProg" => "id"]])]
+    public function logModule(ManagerRegistry $doctrine, Programme $programme, SessionFormation $session) {
+
+        $session->addProgramme($programme);
+        $em = $doctrine->getManager();
+        $em->persist($session);
+        $em->flush();
+        return $this->redirectToRoute('show_nonInscrits', ['id' => $session->getId()]);
+    }
+
     #[Route('/session/{idSe}/{idProg}/delete', name: 'delete_programme')]
     #[ParamConverter("session", options:["mapping" => ["idSe" => "id"]])]
     #[ParamConverter("programme", options:["mapping" => ["idProg" => "id"]])]
@@ -97,20 +109,21 @@ class SessionController extends AbstractController
         $session->removeProgramme($programme);
         $em = $doctrine->getManager();
         $em->flush();
-        return $this->redirectToRoute('detail_session', ['id' => $session->getId()]);
+        return $this->redirectToRoute('show_nonInscrits', ['id' => $session->getId()]);
     }
 
     #[Route('session/{id}/show', name: 'show_nonInscrits')]
     public function show(SessionFormation $session, SessionFormationRepository $sr) {
         $session_id = $session->getId();
         $nonInscrits = $sr->findNonInscrits($session_id);
-        // $nonProgrammes = $sr->findNonProgrammes($session_id);
+        $nonProgrammes = $sr->findNonProgrammes($session_id);
         //$stagiaires = $str->findAll();
         //$programmes = $pr->findAll();
 
         return $this->render('/session/detailSession.html.twig', [
             'session' => $session,
             'nonInscrits' => $nonInscrits,
+            'nonProgrammes' => $nonProgrammes
         ]);
     }
 }
