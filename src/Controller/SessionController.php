@@ -65,6 +65,18 @@ class SessionController extends AbstractController
         ]);
     }
 
+    #[Route('/session/{idSe}/log/{idSt}', name: 'log_stagiaire')]
+    #[ParamConverter("session", options:["mapping" => ["idSe" => "id"]])]
+    #[ParamConverter("stagiaire", options:["mapping" => ["idSt" => "id"]])]
+    public function logStagiaire(ManagerRegistry $doctrine, Stagiaire $stagiaire, SessionFormation $session) {
+
+        $session->addStagiaire($stagiaire);
+        $em = $doctrine->getManager();
+        $em->persist($session);
+        $em->flush();
+        return $this->redirectToRoute('show_nonInscrits', ['id' => $session->getId()]);
+    }
+
     //quand plusieurs param --> utiliser Paramconverter pour bien faire le lien
     #[Route('/session/{idSe}/delete/{idSt}', name: 'delete_stagiaire')]
     #[ParamConverter("session", options:["mapping" => ["idSe" => "id"]])]
@@ -74,7 +86,7 @@ class SessionController extends AbstractController
         $session->removeStagiaire($stagiaire);
         $em = $doctrine->getManager();
         $em->flush();
-        return $this->redirectToRoute('detail_session', ['id' => $session->getId()]);
+        return $this->redirectToRoute('show_nonInscrits', ['id' => $session->getId()]);
     }
 
     #[Route('/session/{idSe}/{idProg}/delete', name: 'delete_programme')]
