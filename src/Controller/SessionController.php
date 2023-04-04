@@ -8,6 +8,7 @@ use App\Entity\SessionFormation;
 use App\Form\SessionFormationType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\SessionFormationRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -85,5 +86,19 @@ class SessionController extends AbstractController
         $em = $doctrine->getManager();
         $em->flush();
         return $this->redirectToRoute('detail_session', ['id' => $session->getId()]);
+    }
+
+    #[Route('session/{id}/show', name: 'show_nonInscrits')]
+    public function show(SessionFormation $session, SessionFormationRepository $sr) {
+        $session_id = $session->getId();
+        $nonInscrits = $sr->findNonInscrits($session_id);
+        // $nonProgrammes = $sr->findNonProgrammes($session_id);
+        //$stagiaires = $str->findAll();
+        //$programmes = $pr->findAll();
+
+        return $this->render('/session/detailSession.html.twig', [
+            'session' => $session,
+            'nonInscrits' => $nonInscrits,
+        ]);
     }
 }

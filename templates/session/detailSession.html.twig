@@ -52,5 +52,11 @@
     {% endfor %}
 
     <h2>Liste des stagiaires non inscrits à la session</h2>
+    
+    {% for nonInscrit in nonInscrits %}
+        <p>
+            <a href="{{ path('profil_stagiaire', {'id': nonInscrit.id}) }}">{{ nonInscrit }}</a>
+        </p>
+    {% endfor %}
 
 {% endblock %}

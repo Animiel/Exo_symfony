@@ -24,7 +24,7 @@
         <tbody>
             {% for session in sessions %}
             <tr>
-                <td><a href="{{ path('detail_session', {'id': session.id}) }}">{{ session.intitule }}</a></td>
+                <td><a href="{{ path('show_nonInscrits', {'id': session.id}) }}">{{ session.intitule }}</a></td>
                 <td>{{ session.dateDebut|date('d-m-Y') }}</td>
                 <td>{{ session.dateFin|date('d-m-Y') }}</td>
                 <td>{{ session.nbPlaces }}</td>
