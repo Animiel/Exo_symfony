@@ -33,8 +33,8 @@
             <tbody>
                 {% for programme in session.programmes %}
                     <tr>
-                        <td>{{ programme.moduleForma.categorie }}</td>
                         <td>{{ programme.moduleForma }}</td>
+                        <td>{{ programme.moduleForma.categorie }}</td>
                         <td>{{ programme.nbJours }}</td>
                         <td><a href="{{ path('delete_programme', {'idSe': session.id, 'idProg': programme.id}) }}">Annuler le module</a></td>
                     </tr>

@@ -74,7 +74,7 @@ class SessionFormationRepository extends ServiceEntityRepository
         //sélectionner tous les stagiaires d'une session dont l'id est passé en paramètre
         $qb->select('s')
             ->from('App\Entity\Programme', 's')
-            ->leftJoin('s.sessions', 'se')
+            ->leftJoin('s.sessionForma', 'se')
             ->where('se.id = :id');
 
         $sub = $em->createQueryBuilder();
@@ -84,9 +84,9 @@ class SessionFormationRepository extends ServiceEntityRepository
             ->from('App\Entity\Programme', 'st')
             ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
             //requête paramétrée
-            ->setParameter('id', $session_id)
+            ->setParameter('id', $session_id);
             //trier la liste des stagiaires sur le nom de famille
-            ->orderBy('st.nom');
+            // ->orderBy('st.nom');
 
             //renvoyer le résultat
             $query = $sub->getQuery();
