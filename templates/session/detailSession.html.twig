@@ -89,7 +89,9 @@
         {% for nonInscrit in nonInscrits %}
             <p>
                 <a href="{{ path('profil_stagiaire', {'id': nonInscrit.id}) }}">{{ nonInscrit }}</a>
-                <a href="{{ path('log_stagiaire', {'idSt': nonInscrit.id, 'idSe': session.id}) }}">Inscrire</a>
+                {% if session.placesLibres > 0 %}
+                    <a href="{{ path('log_stagiaire', {'idSt': nonInscrit.id, 'idSe': session.id}) }}">Inscrire</a>
+                {% endif %}
             </p>
         {% endfor %}
     {% endif %}

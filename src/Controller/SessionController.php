@@ -73,6 +73,12 @@ class SessionController extends AbstractController
     public function logStagiaire(ManagerRegistry $doctrine, Stagiaire $stagiaire, SessionFormation $session) {
 
         $session->addStagiaire($stagiaire);
+
+        $placesLibres = $session->getPlacesLibres() - 1;
+        $placesReservees = $session->getPlacesReservees() + 1;
+        $session->setPlacesLibres($placesLibres);
+        $session->setPlacesReservees($placesReservees);
+
         $em = $doctrine->getManager();
         $em->persist($session);
         $em->flush();
@@ -86,7 +92,14 @@ class SessionController extends AbstractController
     public function deleteStagiaire(ManagerRegistry $doctrine, Stagiaire $stagiaire, SessionFormation $session) {
 
         $session->removeStagiaire($stagiaire);
+
+        $placesLibres = $session->getPlacesLibres() + 1;
+        $placesReservees = $session->getPlacesReservees() - 1;
+        $session->setPlacesLibres($placesLibres);
+        $session->setPlacesReservees($placesReservees);
+
         $em = $doctrine->getManager();
+        $em->persist($session);
         $em->flush();
         return $this->redirectToRoute('show_nonInscrits', ['id' => $session->getId()]);
     }
