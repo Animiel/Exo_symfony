@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FormationController extends AbstractController
 {
-    #[Route('/formation', name: 'app_formation')]
+    #[Route('/', name: 'app_formation')]
     public function index(ManagerRegistry $doctrine): Response
     {
         $formations = $doctrine->getRepository(Formation::class)->findAll();
