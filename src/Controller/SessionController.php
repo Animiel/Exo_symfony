@@ -116,20 +116,7 @@ class SessionController extends AbstractController
     }
 
     #[Route('session/{id}/show', name: 'show_nonInscrits')]
-    public function show(SessionFormation $session, SessionFormationRepository $sr, Request $request, ManagerRegistry $doctrine, Programme $programme) {
-
-        if (!$programme) {
-            $programme = new Programme();
-        }
-
-        $form = $this->createForm(ProgrammeType::class, $programme);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $programme = $form->getData();
-            $entityManager = $doctrine->getManager();
-            $entityManager->persist($programme);
-        }
+    public function show(SessionFormation $session, SessionFormationRepository $sr) {
 
         $session_id = $session->getId();
         $nonInscrits = $sr->findNonInscrits($session_id);
@@ -140,8 +127,7 @@ class SessionController extends AbstractController
         return $this->render('/session/detailSession.html.twig', [
             'session' => $session,
             'nonInscrits' => $nonInscrits,
-            'nonProgrammes' => $nonProgrammes,
-            'formJours' => $form->createView()
+            'nonProgrammes' => $nonProgrammes
         ]);
     }
 }

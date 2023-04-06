@@ -56,7 +56,7 @@
                     <tr>
                         <td>{{ programme.intitule }}</td>
                         <td>{{ programme.categorie }}</td>
-                        <td>{{ form(formJours) }}</td>
+                        <td></td>
                         <td><a href="{{ path('log_programme', {'idSe': session.id, 'idProg': programme.id}) }}">Ajouter au programme</a></td>
                     </tr>
                 {% endfor %}
