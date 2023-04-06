@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Session{% endblock %}
+{% block title %}Session | Détail{% endblock %}
 
 {% block body %}
 
     <h1>{{ session }}</h1>
 
-    <h2>Détail pratiques de la session</h2>
+    <h2>Détails pratiques de la session</h2>
 
     <ul>
         <li>Date de début de session : {{ session.dateDebut|date('d-m-Y') }}</li>
@@ -18,7 +18,9 @@
 
     <h3>Programme de la session</h3>
 
-    <a href="{{ path('app_module') }}">Ajouter un module</a>
+    {% if app.user %}    
+        <a href="{{ path('app_module') }}">Ajouter un module</a>
+    {% endif %}
     
     <div>
         <table>
@@ -36,34 +38,38 @@
                         <td>{{ programme.moduleForma }}</td>
                         <td>{{ programme.moduleForma.categorie }}</td>
                         <td>{{ programme.nbJours }}</td>
-                        <td><a href="{{ path('delete_programme', {'idSe': session.id, 'idProg': programme.id}) }}">Annuler le module</a></td>
+                        {% if app.user %}
+                            <td><a href="{{ path('delete_programme', {'idSe': session.id, 'idProg': programme.id}) }}">Annuler le module</a></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Modules</th>
-                    <th>Catégories</th>
-                    <th>Nombre de jours</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for programme in nonProgrammes %}
+        {% if app.user %}
+            <table>
+                <thead>
                     <tr>
-                        <form method="post" action="{{ path('log_programme', {'idSe': session.id, 'idProg': programme.id}) }}">
-                            <td>{{ programme.intitule }}</td>
-                            <td>{{ programme.categorie }}</td>
-                            <td><input type="number" id="nbJours" name="nbJours" min="1" required> jours</td>
-                            <td><input type="submit" name="submit" value="Ajouter au programme"></td>
-                        </form>
+                        <th>Modules</th>
+                        <th>Catégories</th>
+                        <th>Nombre de jours</th>
+                        <th></th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for programme in nonProgrammes %}
+                        <tr>
+                            <form method="post" action="{{ path('log_programme', {'idSe': session.id, 'idProg': programme.id}) }}">
+                                <td>{{ programme.intitule }}</td>
+                                <td>{{ programme.categorie }}</td>
+                                <td><input type="number" id="nbJours" name="nbJours" min="1" required> jours</td>
+                                <td><input type="submit" name="submit" value="Ajouter au programme"></td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 
     <h2>Liste des stagiaires inscrits à la session</h2>
@@ -71,17 +77,21 @@
     {% for stagiaire in session.stagiaires %}
         <p>
             <a href="{{ path('profil_stagiaire', {'id': stagiaire.id}) }}">{{ stagiaire }}</a>
-            <a href="{{ path('delete_stagiaire', {'idSt': stagiaire.id, 'idSe': session.id}) }}">Désinscrire</a>
+            {% if app.user %}  
+                <a href="{{ path('delete_stagiaire', {'idSt': stagiaire.id, 'idSe': session.id}) }}">Désinscrire</a>
+            {% endif %}
         </p>
     {% endfor %}
 
-    <h2>Liste des stagiaires non inscrits à la session</h2>
-    
-    {% for nonInscrit in nonInscrits %}
-        <p>
-            <a href="{{ path('profil_stagiaire', {'id': nonInscrit.id}) }}">{{ nonInscrit }}</a>
-            <a href="{{ path('log_stagiaire', {'idSt': nonInscrit.id, 'idSe': session.id}) }}">Inscrire</a>
-        </p>
-    {% endfor %}
+    {% if app.user %}
+        <h2>Liste des stagiaires non inscrits à la session</h2>
+        
+        {% for nonInscrit in nonInscrits %}
+            <p>
+                <a href="{{ path('profil_stagiaire', {'id': nonInscrit.id}) }}">{{ nonInscrit }}</a>
+                <a href="{{ path('log_stagiaire', {'idSt': nonInscrit.id, 'idSe': session.id}) }}">Inscrire</a>
+            </p>
+        {% endfor %}
+    {% endif %}
 
 {% endblock %}

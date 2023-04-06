@@ -6,8 +6,10 @@
 
     <h1>Liste des sessions</h1>
 
-    <a href="{{ path('add_session') }}">Ajouter une session</a>
-    <a href="{{ path('app_categorie') }}">Ajouter une catégorie</a>
+    {% if app.user %}
+        <a href="{{ path('add_session') }}">Ajouter une session</a>
+        <a href="{{ path('app_categorie') }}">Ajouter une catégorie</a>
+    {% endif %}
 
     <table>
         <thead>

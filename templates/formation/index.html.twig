@@ -6,7 +6,9 @@
 
     <h1>Liste des formations</h1>
 
-    <a href="{{ path('add_formation') }}">Ajouter une formation</a>
+    {% if app.user %}
+        <a href="{{ path('add_formation') }}">Ajouter une formation</a>
+    {% endif %}
 
     <ul>
         {% for formation in formations %}
