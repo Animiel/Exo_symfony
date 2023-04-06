@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
+use App\Form\ProgrammeType;
 use App\Entity\SessionFormation;
 use App\Form\SessionFormationType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -98,7 +99,9 @@ class SessionController extends AbstractController
         $em = $doctrine->getManager();
         $em->persist($session);
         $em->flush();
-        return $this->redirectToRoute('show_nonInscrits', ['id' => $session->getId()]);
+        return $this->redirectToRoute('show_nonInscrits', [
+            'id' => $session->getId()
+        ]);
     }
 
     #[Route('/session/{idSe}/{idProg}/delete', name: 'delete_programme')]
@@ -113,7 +116,21 @@ class SessionController extends AbstractController
     }
 
     #[Route('session/{id}/show', name: 'show_nonInscrits')]
-    public function show(SessionFormation $session, SessionFormationRepository $sr) {
+    public function show(SessionFormation $session, SessionFormationRepository $sr, Request $request, ManagerRegistry $doctrine, Programme $programme) {
+
+        if (!$programme) {
+            $programme = new Programme();
+        }
+
+        $form = $this->createForm(ProgrammeType::class, $programme);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $programme = $form->getData();
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($programme);
+        }
+
         $session_id = $session->getId();
         $nonInscrits = $sr->findNonInscrits($session_id);
         $nonProgrammes = $sr->findNonProgrammes($session_id);
@@ -123,7 +140,8 @@ class SessionController extends AbstractController
         return $this->render('/session/detailSession.html.twig', [
             'session' => $session,
             'nonInscrits' => $nonInscrits,
-            'nonProgrammes' => $nonProgrammes
+            'nonProgrammes' => $nonProgrammes,
+            'formJours' => $form->createView()
         ]);
     }
 }
