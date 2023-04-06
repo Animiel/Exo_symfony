@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
 use App\Form\ProgrammeType;
+use App\Entity\ModuleFormation;
 use App\Entity\SessionFormation;
 use App\Form\SessionFormationType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -92,12 +93,18 @@ class SessionController extends AbstractController
 
     #[Route('/session/{idSe}/{idProg}/log', name: 'log_programme')]
     #[ParamConverter("session", options:["mapping" => ["idSe" => "id"]])]
-    #[ParamConverter("programme", options:["mapping" => ["idProg" => "id"]])]
-    public function logModule(ManagerRegistry $doctrine, Programme $programme, SessionFormation $session) {
+    #[ParamConverter("module", options:["mapping" => ["idProg" => "id"]])]
+    public function logModule(ManagerRegistry $doctrine, ModuleFormation $module, SessionFormation $session, Request $request) {
 
-        $session->addProgramme($programme);
         $em = $doctrine->getManager();
-        $em->persist($session);
+        $pr = new Programme();
+        $pr->setSessionForma($session);
+        $pr->setModuleForma($module);
+
+        $nbJours = $request->request->get('nbJours');
+
+        $pr->setNbJours($nbJours);
+        $em->persist($pr);
         $em->flush();
         return $this->redirectToRoute('show_nonInscrits', [
             'id' => $session->getId()
